@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++11 -g -Wall -fpermissive -O2
+CFLAGS = -std=c++11 -g -Wall -fpermissive -O0
 BINARY = JWSS
 
 all: JWSS

@@ -31,14 +31,23 @@ int main(int argc, char **argv)
                                      { 't', 'i', 'n', 'l'},
                                      { 'g', 'i', 'o', 'n'},
                                      { 'q', 'g', 'w', 's'}};
-    vector <vector <char> > words = {{ 's', 'n', 'o', 'w'}};
-    if(!isConstantSize(board))
+    vector <vector <char> > words = {{ 'r', 'n', 'o', 'w'}};
+    if(!isValid(board))
     {
-        cout << "Board should be of constant size\n";
+        cout << "Input is not valid, see documentation\n\n";
         exit(1);
     }
     puzzle curPuzzle;
     curPuzzle.init(board.at(0).size(),board.size(),board);
-    solve(curPuzzle,words);
+    vector <vector <int> > solutions;
+    solutions = solve(curPuzzle,words);
+    cout << "Solutions, most likely fucked up:\n";
+    for(int i = 0; i < solutions.size(); i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
+            cout << solutions.at(i).at(j) << endl;
+        }
+    }
     return 0;
 }

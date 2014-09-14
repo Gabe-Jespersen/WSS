@@ -25,12 +25,7 @@ using namespace std;
 
 char puzzle::pos(short x, short y)
 {
-    if(x>width||y>height)
-    {
-        cout << "Error, invalid position \(" << x << "," << y << ")" << endl;
-        exit(1);
-    }
-    return((board.at(y)).at(x));
+    return(charAt(x,y,0,0));
 }
 
 void puzzle::init(short toWidth, short toHeight, vector <vector <char> > toSet)
@@ -48,8 +43,21 @@ vector <vector <char> > puzzle::getBoard()
 
 vector <int> puzzle::posPDir(int x, int y, int dir, int dist)
 {
-    dist--;
-    vector<int> end;
+    vector<int> end = {-1,-1};//default, signifies no valid point found
+    char error = 255;
+
+    //this is really, really shitty, and really slow
+    if(x<=0&&(dir==3||dir==7||dir==8)) //all of these are checking for invalid positions
+        return end;
+    if(y<=0&&(dir==1||dir==5||dir==7))
+        return end;
+    if(x>=(width-1)&&(dir==4||dir==5||dir==6))
+        return end;
+    if(y>=(height-1)&&(dir==2||dir==6||dir==8))
+        return end;
+
+
+    dist--; //because math 'n shit
     switch(dir)
     {
         case 1:
@@ -75,24 +83,19 @@ vector <int> puzzle::posPDir(int x, int y, int dir, int dist)
             break;
         case 8:
             end = {x-dist,y+dist};
+            break;
+
         default:
             break;
-    }
-    if(x<0||y<0||!end.size())
-    {
-        cout << "Error, position out of range or invalid dir, details:\n" <<
-                "x:\n\tbefore: " << x << "\n\tafter: " << end.at(0) <<
-                "y:\n\tbefore: " << y << "\n\tafter: " << end.at(1) <<
-                "direction(see documentation for details): " << dir <<
-                "distance: " << dist << "\n\n";
-        exit(1);
     }
     return end;
 }
 
 char puzzle::charAt(int x, int y, int dir, int dist)
 {
-    vector <int> temp = posPDir(x,y,dir,dist);
+    vector <int> temp = posPDir(x,y,dir,dist+1);
+    if(temp.at(0) == -1)//invalid, no situation it would have -1 for x and something
+        return(255);    //else for y, at least as far as I know
     return(board.at(temp.at(1)).at(temp.at(0)));
 }
 

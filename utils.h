@@ -20,6 +20,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-bool isConstantSize(std::vector <std::vector <char> >);
+bool isValid(std::vector <std::vector <char> >);
 
 #endif
